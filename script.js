@@ -16,20 +16,22 @@ const initialState = {
 const board = document.getElementById("board");
 const scoreElement = document.getElementById("score");
 
-for (let index = 0; index < boardSize * boardSize; index += 1) {
+// Criação das células do tabuleiro
+for (let index = 0; index < boardSize * boardSize; index++) {
   const cell = document.createElement("div");
   cell.classList.add("cell");
   board.appendChild(cell);
 }
 
+// Função para desenhar o tabuleiro
 const desenhaTabuleiro = (state) => {
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => (cell.className = "cell"));
-  
+
   const [cabeca, ...cauda] = state.snake;
   const index = cabeca.y * boardSize + cabeca.x;
   cells[index].classList.add("snake");
-  
+
   cauda.forEach((pedaco) => {
     const index = pedaco.y * boardSize + pedaco.x;
     cells[index].classList.add("cauda");
@@ -38,10 +40,10 @@ const desenhaTabuleiro = (state) => {
   const coffeeIndex = state.coffee.y * boardSize + state.coffee.x;
   cells[coffeeIndex].classList.add("coffee");
 
-  // Atualiza o score
   scoreElement.textContent = `Pontuação: ${state.score}`;
 };
 
+// Função para mover a cobrinha
 const moveSnake = (snake, direction) => {
   const newHead = {
     x: snake[0].x + direction.x,
@@ -54,6 +56,7 @@ const moveSnake = (snake, direction) => {
   return [newHead, ...snake.slice(0, -1)];
 };
 
+// Verificar colisão
 const checkCollision = (snake) => {
   const [head, ...body] = snake;
   return body.some((segment) => segment.x === head.x && segment.y === head.y);
@@ -81,8 +84,6 @@ const gameLoop = (state) => {
   if (newSnake[0].x === state.coffee.x && newSnake[0].y === state.coffee.y) {
     newSnake.push({ ...newSnake[newSnake.length - 1] });
     novoCoffee = generateCoffee();
-    
-    // Efeito de brilho na maçã
     const coffeeIndex = novoCoffee.y * boardSize + novoCoffee.x;
     const cells = document.querySelectorAll(".cell");
     cells[coffeeIndex].classList.add("brilho");
@@ -90,7 +91,7 @@ const gameLoop = (state) => {
       cells[coffeeIndex].classList.remove("brilho");
     }, 500);
 
-    state.score += 1; // Incrementa a pontuação
+    state.score += 1;
   }
 
   const newState = {
@@ -103,19 +104,22 @@ const gameLoop = (state) => {
   setTimeout(() => gameLoop(newState), 200);
 };
 
-const handleKeyPress = (event) => {
-  const keyMap = {
-    ArrowRight: DIREITA,
-    ArrowLeft: ESQUERDA,
-    ArrowUp: CIMA,
-    ArrowDown: BAIXO,
-  };
+// Substituindo os controles de teclado pelos botões de direção
+document.getElementById("up").addEventListener("click", () => {
+  initialState.direction = CIMA;
+});
 
-  if (keyMap[event.key]) {
-    initialState.direction = keyMap[event.key];
-  }
-};
+document.getElementById("down").addEventListener("click", () => {
+  initialState.direction = BAIXO;
+});
 
-document.addEventListener("keydown", handleKeyPress);
+document.getElementById("left").addEventListener("click", () => {
+  initialState.direction = ESQUERDA;
+});
+
+document.getElementById("right").addEventListener("click", () => {
+  initialState.direction = DIREITA;
+});
+
 desenhaTabuleiro(initialState);
 gameLoop(initialState);

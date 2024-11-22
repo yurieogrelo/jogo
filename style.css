@@ -6,17 +6,22 @@ body {
   margin: 0;
   flex-direction: column; /* Para empilhar o contador acima do tabuleiro */
   background-image: url('./images/fundo.png');
+  background-size: cover; /* Garantir que a imagem de fundo cubra toda a tela */
+  background-position: center; /* Centralizar a imagem */
 }
 
 #board {
   display: grid;
   grid-template-columns: repeat(20, 20px);
   grid-template-rows: repeat(20, 20px);
+  gap: 1px; /* Pequeno espaço entre as células para destacar o tabuleiro */
+  border: 2px solid #000; /* Borda ao redor do tabuleiro */
 }
 
 .cell {
   width: 20px;
   height: 20px;
+  background-color: #eee; /* Cor de fundo para células vazias */
 }
 
 .snake {
@@ -37,10 +42,31 @@ body {
   background-position: center;
 }
 
+.brilho {
+  animation: brilho 0.5s ease-in-out; /* Animação de brilho */
+}
+
+@keyframes brilho {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .score {
   font-size: 20px;
   color: #ffffff;
   position: absolute;
   top: 10px;
   left: 10px;
+  font-family: 'Arial', sans-serif;
+  z-index: 1; /* Garante que o contador fique sobre o tabuleiro */
 }
