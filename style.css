@@ -1,0 +1,46 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  flex-direction: column; /* Para empilhar o contador acima do tabuleiro */
+  background-image: url('./images/fundo.png');
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(20, 20px);
+  grid-template-rows: repeat(20, 20px);
+}
+
+.cell {
+  width: 20px;
+  height: 20px;
+}
+
+.snake {
+  background-image: url('./images/cabecacobra.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.cauda {
+  background-image: url('./images/rabo.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.coffee {
+  background-image: url('./images/maca.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.score {
+  font-size: 20px;
+  color: #ffffff;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
